@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -11,6 +11,7 @@ import {
   MoreHorizontal,
   Sparkles,
 } from "lucide-react";
+import { identifyInstagram, initAmplitude, track } from "@/lib/amplitude";
 
 function InstagramIcon({ size = 22 }: { size?: number }) {
   return (
@@ -159,7 +160,14 @@ function Landing({ onStart }: { onStart: () => void }) {
       </section>
 
       <div className="landing-action">
-        <PrimaryButton onClick={onStart}>30초 데모 보기</PrimaryButton>
+        <PrimaryButton
+          onClick={() => {
+            track("Demo Started");
+            onStart();
+          }}
+        >
+          30초 데모 보기
+        </PrimaryButton>
         <small>가입 없이, 홈부터 책까지 먼저 느껴보세요</small>
       </div>
     </main>
@@ -257,7 +265,14 @@ function DemoHome({
       </div>
 
       <footer className="moa-home-bar">
-        <PrimaryButton onClick={onContinue}>이 기록이 책이 되면</PrimaryButton>
+        <PrimaryButton
+          onClick={() => {
+            track("Book Demo Opened");
+            onContinue();
+          }}
+        >
+          이 기록이 책이 되면
+        </PrimaryButton>
       </footer>
     </main>
   );
@@ -319,6 +334,10 @@ function DemoBook({
 
   const isLast = page === pages.length - 1;
 
+  useEffect(() => {
+    track("Book Page Viewed", { page: page + 1, total: pages.length });
+  }, [page, pages.length]);
+
   return (
     <main className="preview-screen moa-demo">
       <header className="preview-header">
@@ -373,8 +392,12 @@ function DemoBook({
         </div>
         <PrimaryButton
           onClick={() => {
-            if (isLast) onDone();
-            else setPage(page + 1);
+            if (isLast) {
+              track("Waitlist Opened");
+              onDone();
+            } else {
+              setPage(page + 1);
+            }
           }}
         >
           {isLast ? "오픈 알림 받기" : "다음 장 넘기기"}
@@ -446,7 +469,6 @@ function Waitlist({
                 autoCapitalize="none"
                 autoCorrect="off"
                 spellCheck={false}
-                autoFocus
               />
             </div>
           </label>
@@ -508,9 +530,28 @@ function Thanks({ instagramId, onRestart }: { instagramId: string; onRestart: ()
   );
 }
 
-export default function PrototypeApp() {
+export default function PrototypeApp({
+  amplitudeApiKey = "",
+}: {
+  amplitudeApiKey?: string;
+}) {
   const [screen, setScreen] = useState<Screen>("landing");
   const [instagramId, setInstagramId] = useState("");
+
+  useEffect(() => {
+    initAmplitude(amplitudeApiKey);
+  }, [amplitudeApiKey]);
+
+  useEffect(() => {
+    const screenEvents: Record<Screen, string> = {
+      landing: "Landing Viewed",
+      home: "Home Viewed",
+      demo: "Book Demo Viewed",
+      waitlist: "Waitlist Viewed",
+      thanks: "Thanks Viewed",
+    };
+    track(screenEvents[screen], screen === "thanks" ? { instagram_id: instagramId } : undefined);
+  }, [screen, instagramId]);
 
   return (
     <div className="site-shell">
@@ -534,6 +575,8 @@ export default function PrototypeApp() {
           <Waitlist
             onBack={() => setScreen("demo")}
             onSubmit={(id) => {
+              identifyInstagram(id);
+              track("Waitlist Submitted", { instagram_id: id });
               setInstagramId(id);
               try {
                 const prev = JSON.parse(
@@ -552,6 +595,7 @@ export default function PrototypeApp() {
           <Thanks
             instagramId={instagramId}
             onRestart={() => {
+              track("Demo Restarted");
               setScreen("landing");
               setInstagramId("");
             }}
