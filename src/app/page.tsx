@@ -1,7 +1,11 @@
-import PrototypeApp from "@/components/prototype-app";
+import MoaApp from "@/components/moa-app";
+import { isSupabaseConfigured } from "@/lib/supabase/server";
 
 export default function LandingPage() {
   return (
-    <PrototypeApp amplitudeApiKey={process.env.AMPLITUDE_API_KEY ?? ""} />
+    <MoaApp
+      amplitudeApiKey={process.env.AMPLITUDE_API_KEY ?? ""}
+      storageReady={isSupabaseConfigured()}
+    />
   );
 }

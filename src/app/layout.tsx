@@ -3,8 +3,9 @@ import { Providers } from "@/components/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MOA — 둘만의 순간을 한 권에",
-  description: "흩어진 사진이 한 권의 포토북이 됩니다. MOA 오픈 알림을 받아보세요.",
+  title: "moa. — 우리의 이야기를 그림으로 남기다",
+  description:
+    "연인들의 실제 이야기를 AI가 세상에 하나뿐인 그림책으로 만들어주는 서비스. 첫 커플 디지털 그림책 무료 제작에 참여해 보세요.",
 };
 
 export const viewport: Viewport = {
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ko" className="h-full" suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" href="/prototype.css?v=moa-home-7" />
+        <link rel="stylesheet" href="/prototype.css?v=moa-story-4" />
       </head>
       <body className="min-h-dvh">
         <Providers>{children}</Providers>
