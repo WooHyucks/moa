@@ -1,7 +1,6 @@
 export type StoryPage = {
   id: string;
-  kind: "cover" | "spread";
-  chapter?: string;
+  type: "cover" | "story" | "quote" | "ending";
   title: string;
   body: string;
   image: string;
@@ -11,34 +10,30 @@ export type StoryPage = {
 export const sampleStorybookPages: StoryPage[] = [
   {
     id: "cover",
-    kind: "cover",
-    chapter: "MOA · Our Story Vol. 01",
-    title: "우리가 서로를 발견한 날",
-    body: "두 사람의 연애가\n한 권의 그림책이 된다면.",
-    image: "/demo/story-cover.jpg",
+    type: "cover",
+    title: "비가 오면, 우리는",
+    body: "수아와 도윤의 세 번째 계절",
+    image: "/demo/moa-cafe.webp",
   },
   {
-    id: "meet",
-    kind: "spread",
-    chapter: "01",
-    title: "처음 마주친 오후",
-    body: "어느 따뜻한 오후,\n서로의 이름조차 낯설었던\n두 사람이 처음 만났어요.\n\n짧은 인사가\n긴 이야기의 시작이 되었죠.",
-    image: "/demo/story-meet.jpg",
+    id: "story",
+    type: "story",
+    title: "처음 만난 날도 비가 왔다.",
+    body: "우산은 하나였고, 우리는 조금 가까워졌다. 도윤은 수아가 비 오는 날을 싫어한다고 생각했지만, 사실 수아는 그날 이후 비를 기다리게 되었다.",
+    image: "/demo/moa-cafe.webp",
   },
   {
-    id: "rain",
-    kind: "spread",
-    chapter: "02",
-    title: "비 오는 날의 우산",
-    body: "갑자기 내린 비 속에서\n하나뿐인 우산을 나누며\n나란히 걸었어요.\n\n말보다 더 가까운\n사이가 되었던 날.",
-    image: "/demo/story-rain.jpg",
+    id: "quote",
+    type: "quote",
+    title: "함께 걷는 속도를 배운다는 것",
+    body: "빠르지도 느리지도 않게. 서로의 걸음에 맞춰 걷는 일이 사랑과 닮아 있었다.",
+    image: "/demo/moa-sea.webp",
   },
   {
-    id: "sea",
-    kind: "spread",
-    chapter: "03",
-    title: "바다 앞의 약속",
-    body: "바람이 스치던 저녁,\n멀리 보이는 수평선을 보며\n우리는 조용히 웃었어요.\n\n그날의 마음이\n지금도 페이지 위에 남아 있어요.",
-    image: "/demo/story-sea.jpg",
+    id: "ending",
+    type: "ending",
+    title: "우리의 다음 장면도 함께",
+    body: "평범한 날들이 모여 두 사람만의 한 권이 됩니다.",
+    image: "/demo/moa-sea.webp",
   },
 ];

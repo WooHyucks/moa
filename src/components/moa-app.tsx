@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
+  BookOpen,
   ChevronLeft,
   ChevronRight,
+  Clock3,
   Copy,
+  Image,
   Share2,
+  ShieldCheck,
   Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -19,10 +23,11 @@ import { loadUtm, persistUtm, readUtmFromSearch, type UtmParams } from "@/lib/ut
 type Screen = "landing" | "preview" | "offer" | "apply" | "success";
 
 function MoaLogo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
-  const text = size === "lg" ? 28 : size === "sm" ? 18 : 20;
+  const text = size === "lg" ? 28 : size === "sm" ? 20 : 23;
   return (
     <div className="moa-logo" aria-label="MOA" style={{ fontSize: text }}>
-      <span className="moa-word">{campaign.brandWordmark}</span>
+      <span className="moa-word">MOA</span>
+      <i className="moa-dot" aria-hidden />
     </div>
   );
 }
@@ -51,20 +56,6 @@ function PrimaryButton({
   );
 }
 
-function GhostButton({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-}) {
-  return (
-    <button type="button" className="ghost-button" onClick={onClick}>
-      {children}
-    </button>
-  );
-}
-
 function Landing({
   onStart,
   onPreview,
@@ -76,163 +67,264 @@ function Landing({
 }) {
   return (
     <main className="landing moa-landing moa-story-landing">
-      <header className="landing-header">
+      <header className="landing-header sticky-header">
         <MoaLogo />
         <button
           type="button"
-          className="header-cta"
+          className="header-cta filled"
           onClick={() => {
             track("hero_cta_clicked", { source: "header" });
             onStart();
           }}
         >
-          무료 체험하기
+          무료 제작 신청
         </button>
       </header>
 
-      <section className="landing-copy">
-        <span className="eyebrow">
-          {campaignOpen
-            ? `첫 ${campaign.freeSlots}커플 디지털 그림책 무료 제작`
-            : "무료 제작 모집 마감"}
-        </span>
-        <h1>
-          우리의 연애가
-          <br />
-          한 권의 그림책이
-          <br />
-          된다면?
-        </h1>
-        <p>
-          처음 만난 날부터 가장 행복했던 순간까지.
-          <br />
-          우리의 이야기를 세상에 하나뿐인
-          <br />
-          그림책으로 만들어보세요.
-        </p>
-      </section>
-
-      <section className="hero-book-open" aria-label="그림책 미리보기">
-        <div className="open-spread">
-          <div className="open-left">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/demo/story-meet.jpg" alt="그림책 일러스트" />
-          </div>
-          <div className="open-right">
-            <small>01</small>
-            <strong>처음 마주친 오후</strong>
-            <p>
-              어느 따뜻한 오후,
-              <br />
-              서로의 이름조차 낯설었던
-              <br />
-              두 사람이 처음 만났어요.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div className="landing-action dual">
-        <PrimaryButton
-          onClick={() => {
-            track("hero_cta_clicked", { source: "primary" });
-            onPreview();
-          }}
-        >
-          그림책 미리보기
-        </PrimaryButton>
-        <GhostButton
-          onClick={() => {
-            track("free_application_clicked", { source: "landing_secondary" });
-            onStart();
-          }}
-        >
-          무료 제작 신청하기
-        </GhostButton>
-      </div>
-
-      <section className="moa-section">
-        <h2>
-          평범했던 우리의 순간이
-          <br />
-          특별한 이야기가 됩니다.
-        </h2>
-        <div className="sample-spread ghibli">
-          {[
-            { src: "/demo/story-cover.jpg", label: "표지" },
-            { src: "/demo/story-meet.jpg", label: "첫 만남" },
-            { src: "/demo/story-rain.jpg", label: "특별한 날" },
-            { src: "/demo/story-sea.jpg", label: "약속" },
-          ].map((item) => (
-            <figure key={item.label}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={item.src} alt={item.label} />
-              <figcaption>{item.label}</figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
-
-      <section className="moa-section">
-        <h2>우리의 이야기를 만드는 방법</h2>
-        <ol className="how-steps">
-          <li>
-            <strong>STEP 01</strong>
-            <span>그림책 미리보기를 살펴보세요.</span>
-          </li>
-          <li>
-            <strong>STEP 02</strong>
-            <span>무료 제작에 인스타그램으로 신청하세요.</span>
-          </li>
-          <li>
-            <strong>STEP 03</strong>
-            <span>선정되면 우리만의 그림책을 만나요.</span>
-          </li>
-        </ol>
-      </section>
-
-      <section className={`moa-section event-panel ${campaignOpen ? "" : "closed"}`}>
-        <div className="event-panel-art">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/demo/story-cover.jpg" alt="" />
-        </div>
-        <div className="event-panel-copy">
-          <p className="offer-kicker">첫 {campaign.freeSlots}커플</p>
-          <h2>
-            디지털 그림책을
+      <section className="hero">
+        <div className="landing-copy">
+          <span className="eyebrow">COUPLE PICTURE BOOK</span>
+          <h1>
+            우리 이야기,
             <br />
-            선물합니다
+            한 권의 그림책이
+            <br />
+            되다.
+          </h1>
+          <p>
+            두 사람의 사진과 이야기를 보내주세요.
+            <br />
+            MOA가 세상에 하나뿐인 그림책으로 만들어요.
+          </p>
+        </div>
+
+        <section className="hero-stage" aria-label="그림책 미리보기">
+          <span className="hero-watermark" aria-hidden>
+            MOA
+          </span>
+          <span className="hero-chip">실제 제작 샘플</span>
+          <div className="hero-book">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/demo/moa-sea.webp" alt="MOA 그림책 표지" />
+            <i className="hero-book-spine" aria-hidden />
+            <div className="hero-book-veil" aria-hidden />
+            <div className="hero-book-copy">
+              <small>A STORY OF US</small>
+              <strong>우리라는 계절</strong>
+              <span>민지와 현우의 이야기</span>
+            </div>
+          </div>
+          <div className="hero-note">
+            <strong>Our story, illustrated.</strong>
+            <span>사진에서 그림으로, 기억에서 이야기로</span>
+          </div>
+        </section>
+
+        <div className="landing-action">
+          <PrimaryButton
+            onClick={() => {
+              track("hero_cta_clicked", { source: "primary" });
+              onStart();
+            }}
+          >
+            내 이야기 무료로 만들기
+          </PrimaryButton>
+          <button
+            type="button"
+            className="preview-link"
+            onClick={() => {
+              track("hero_cta_clicked", { source: "sample_link" });
+              onPreview();
+            }}
+          >
+            샘플 그림책 먼저 보기 <ChevronRight size={16} />
+          </button>
+        </div>
+        <div className="trust-row">
+          <span>
+            <ShieldCheck size={15} /> 사진은 제작 후 안전하게 삭제
+          </span>
+          <span>
+            <Clock3 size={15} /> 신청은 3분이면 충분해요
+          </span>
+        </div>
+      </section>
+
+      <section className="intro-section">
+        <span className="section-number">01</span>
+        <div className="section-heading">
+          <span className="eyebrow">WHY MOA</span>
+          <h2>
+            사진만 넘기던 추억을,
+            <br />
+            오래 읽고 싶은 이야기로.
           </h2>
           <p>
-            선정된 커플에게 {campaign.pageRangeLabel} 디지털 그림책을
-            무료로 제작해 드려요.
+            기념일 선물을 고민하는 시간을 줄이고, 두 사람다운 장면은 더
+            선명하게 남겨드려요.
           </p>
-          {campaignOpen ? (
-            <PrimaryButton
-              onClick={() => {
-                track("free_application_clicked", { source: "landing" });
-                onStart();
-              }}
-            >
-              무료 제작 신청하기
-            </PrimaryButton>
-          ) : (
-            <p className="closed-note">현재 무료 제작 모집이 마감되었습니다.</p>
-          )}
-          <p className="offer-note">
-            신청 무료 · 선정 커플 한정 · 디지털 PDF 제공
-          </p>
+        </div>
+        <div className="feature-grid">
+          <article>
+            <span className="feature-icon">
+              <Image size={22} />
+            </span>
+            <strong>
+              사진에서 찾는
+              <br />
+              우리다운 장면
+            </strong>
+            <p>표정과 분위기까지 섬세하게 담아요.</p>
+          </article>
+          <article>
+            <span className="feature-icon">
+              <Sparkles size={22} />
+            </span>
+            <strong>
+              한 편의 이야기로
+              <br />
+              완성하는 구성
+            </strong>
+            <p>작가가 사연을 읽고 직접 엮어요.</p>
+          </article>
+          <article>
+            <span className="feature-icon">
+              <BookOpen size={22} />
+            </span>
+            <strong>
+              꺼내 볼수록 좋은
+              <br />
+              프리미엄 한 권
+            </strong>
+            <p>소장에 어울리는 종이와 제본을 써요.</p>
+          </article>
         </div>
       </section>
 
-      <footer className="moa-footer">
-        <MoaLogo size="sm" />
-        <p>{campaign.slogan}</p>
-        <div>
-          <a href="mailto:hello@moa.story">문의하기</a>
-          <span>·</span>
-          <span>개인정보 처리 안내</span>
+      <section className="sample-section">
+        <div className="section-heading">
+          <span className="eyebrow">STORY SAMPLE</span>
+          <h2>
+            먼저, 한 장면을
+            <br />
+            천천히 넘겨보세요.
+          </h2>
         </div>
+        <button type="button" className="sample-card" onClick={onPreview}>
+          <div className="sample-art">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/demo/moa-cafe.webp" alt="비 오는 날의 카페 그림책 샘플" />
+            <span>PREVIEW 01</span>
+          </div>
+          <div className="sample-info">
+            <div>
+              <small>일상 · 연애 3년 차</small>
+              <strong>비가 오면, 우리는</strong>
+            </div>
+            <span className="round-arrow">
+              <ArrowRight size={18} />
+            </span>
+          </div>
+        </button>
+        <div className="sample-quote">
+          <span>“</span>
+          <p>
+            처음 만났던 날도 비가 왔다.
+            <br />
+            우산은 하나였고, 우리는 조금 가까워졌다.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="primary-button button-line"
+          onClick={onPreview}
+        >
+          <span>그림책 전체 미리보기</span>
+          <ArrowRight size={18} />
+        </button>
+      </section>
+
+      <section className="process-section">
+        <div className="section-heading">
+          <span className="eyebrow">HOW IT WORKS</span>
+          <h2>
+            어렵지 않아요.
+            <br />
+            이야기만 들려주세요.
+          </h2>
+        </div>
+        <ol className="process-list">
+          <li>
+            <span>01</span>
+            <div>
+              <strong>무료 제작 신청</strong>
+              <p>두 사람의 사연과 사진을 보내주세요.</p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <strong>작가의 1:1 제작</strong>
+              <p>그림과 글로 두 사람의 이야기를 엮어요.</p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <strong>시안 확인 후 결정</strong>
+              <p>완성된 미리보기를 보고 구매를 결정하세요.</p>
+            </div>
+          </li>
+        </ol>
+        <div className="risk-free">
+          <ShieldCheck size={20} />
+          <div>
+            <strong>결제는 완성된 시안을 본 다음</strong>
+            <p>마음에 들지 않으면 구매하지 않아도 괜찮아요.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className={`final-cta ${campaignOpen ? "" : "closed"}`}>
+        <MoaLogo />
+        <h2>
+          첫 {campaign.freeSlots}커플에게
+          <br />
+          디지털 그림책을 선물합니다
+        </h2>
+        <p>
+          선정된 커플에게 {campaign.pageRangeLabel} 디지털 그림책을
+          무료로 제작해 드려요.
+        </p>
+        {campaignOpen ? (
+          <PrimaryButton
+            onClick={() => {
+              track("free_application_clicked", { source: "landing" });
+              onStart();
+            }}
+          >
+            무료로 제작 시작하기
+          </PrimaryButton>
+        ) : (
+          <p className="closed-note">현재 무료 제작 모집이 마감되었습니다.</p>
+        )}
+        <button type="button" className="preview-link light-link" onClick={onPreview}>
+          샘플부터 더 둘러보기 <ChevronRight size={16} />
+        </button>
+      </section>
+
+      <footer className="design-footer">
+        <MoaLogo size="sm" />
+        <p>
+          주식회사 모아스튜디오 · 대표 김모아
+          <br />
+          문의 help@moa-story.kr · 평일 10:00–18:00
+        </p>
+        <div>
+          <span>이용약관</span>
+          <span>개인정보처리방침</span>
+        </div>
+        <small>© 2025 MOA STUDIO. ALL RIGHTS RESERVED.</small>
       </footer>
     </main>
   );
@@ -247,7 +339,6 @@ function StoryPreview({
 }) {
   const pages = sampleStorybookPages;
   const [page, setPage] = useState(0);
-  const isLast = page === pages.length - 1;
   const current = pages[page];
 
   useEffect(() => {
@@ -255,47 +346,37 @@ function StoryPreview({
   }, [page]);
 
   return (
-    <main className="preview-screen moa-picturebook">
-      <header className="preview-header">
-        <button className="icon-button" aria-label="뒤로" onClick={onBack}>
+    <main className="preview-screen moa-reader">
+      <header className="sub-header">
+        <button className="icon-button" aria-label="이전" onClick={onBack}>
           <ArrowLeft size={21} />
         </button>
-        <div>
-          <strong>그림책 미리보기</strong>
-          <span>이렇게 한 권이 완성돼요</span>
-        </div>
+        <MoaLogo size="sm" />
         <span className="page-number">
           {page + 1} / {pages.length}
         </span>
       </header>
 
-      <div className="picturebook-stage">
-        {current.kind === "cover" ? (
-          <article className="picturebook-cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={current.image} alt="" />
-            <div className="picturebook-cover-copy">
-              <small>{current.chapter}</small>
-              <h2>{current.title}</h2>
-              <p>{current.body}</p>
-            </div>
-          </article>
-        ) : (
-          <article className="picturebook-spread">
-            <div className="spread-art">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={current.image} alt="" />
-            </div>
-            <div className="spread-text">
-              <span className="spread-chapter">{current.chapter}</span>
-              <h2>{current.title}</h2>
-              <p>{current.body}</p>
-            </div>
-          </article>
-        )}
+      <div className="preview-title">
+        <span className="eyebrow">STORY SAMPLE</span>
+        <h1>비가 오면, 우리는</h1>
+        <p>실제 제작된 그림책의 일부를 각색한 샘플이에요.</p>
+      </div>
 
+      <div className="reader">
+        <article className={`reader-page reader-${current.type}`}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={current.image} alt={current.title} />
+          <div className="reader-copy">
+            <small>
+              {current.type === "cover" ? "A STORY OF US" : `PAGE 0${page + 1}`}
+            </small>
+            <strong>{current.title}</strong>
+            <p>{current.body}</p>
+          </div>
+        </article>
         <button
-          className="page-control prev"
+          className="reader-nav reader-prev"
           disabled={page === 0}
           onClick={() => setPage(page - 1)}
           aria-label="이전 페이지"
@@ -303,8 +384,8 @@ function StoryPreview({
           <ChevronLeft size={22} />
         </button>
         <button
-          className="page-control next"
-          disabled={isLast}
+          className="reader-nav reader-next"
+          disabled={page === pages.length - 1}
           onClick={() => setPage(page + 1)}
           aria-label="다음 페이지"
         >
@@ -312,28 +393,32 @@ function StoryPreview({
         </button>
       </div>
 
-      <div className="page-dots">
-        {pages.map((p, i) => (
-          <span key={p.id} className={page === i ? "active" : ""} />
+      <div className="reader-dots">
+        {pages.map((p, index) => (
+          <button
+            key={p.id}
+            type="button"
+            className={page === index ? "active" : ""}
+            onClick={() => setPage(index)}
+            aria-label={`${index + 1}페이지`}
+          />
         ))}
       </div>
 
-      <footer className="preview-footer">
+      <div className="preview-bottom">
         <div>
-          <span>샘플 그림책</span>
-          <strong>{isLast ? "마음에 드시나요?" : "장을 넘겨보세요"}</strong>
+          <strong>우리 이야기도 그림책이 될 수 있을까요?</strong>
+          <span>완성 시안을 무료로 먼저 받아보세요.</span>
         </div>
         <PrimaryButton
           onClick={() => {
-            if (isLast) {
-              track("free_application_clicked", { source: "preview" });
-              onContinue();
-            } else setPage(page + 1);
+            track("free_application_clicked", { source: "preview" });
+            onContinue();
           }}
         >
-          {isLast ? "무료 제작 신청하기" : "다음 장 넘기기"}
+          무료 제작 신청하기
         </PrimaryButton>
-      </footer>
+      </div>
     </main>
   );
 }
@@ -367,10 +452,10 @@ function FreeOffer({
       <section className="offer-body">
         <div className="offer-visual">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/demo/story-cover.jpg" alt="MOA 디지털 그림책" />
+          <img src="/demo/moa-sea.webp" alt="MOA 디지털 그림책" />
           <div className="offer-visual-copy">
-            <span>DIGITAL STORYBOOK</span>
-            <strong>Our Story</strong>
+            <span>A STORY OF US</span>
+            <strong>우리라는 계절</strong>
           </div>
         </div>
 

@@ -4,7 +4,7 @@ export type CampaignStatus = "open" | "closed";
 export const campaign = {
   brandName: "MOA",
   brandWordmark: "MOA",
-  slogan: "우리의 이야기를 그림으로 남기다.",
+  slogan: "우리 이야기, 한 권의 그림책이 되다.",
   freeSlots: Number(process.env.NEXT_PUBLIC_MOA_FREE_SLOTS ?? 10),
   status: (process.env.NEXT_PUBLIC_MOA_CAMPAIGN_STATUS ?? "open") as CampaignStatus,
   pageRangeLabel: "10~12페이지",
