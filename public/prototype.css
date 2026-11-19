@@ -3466,6 +3466,16 @@
   flex-shrink: 0;
 }
 
+.consent-hint {
+  display: block;
+  margin-top: 4px;
+  color: #9a9592;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
 .storage-warn {
   margin-bottom: 14px;
   padding: 12px 14px;

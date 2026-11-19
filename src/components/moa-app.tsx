@@ -19,7 +19,12 @@ import { toast } from "sonner";
 import { campaign, isCampaignOpen } from "@/lib/campaign";
 import { identifyInstagram, initAmplitude, track } from "@/lib/amplitude";
 import { sampleStorybookPages } from "@/lib/storybook";
-import { loadUtm, persistUtm, readUtmFromSearch, type UtmParams } from "@/lib/utm";
+import {
+  loadUtm,
+  persistUtm,
+  readUtmFromSearch,
+  type UtmParams,
+} from "@/lib/utm";
 
 type Screen = "landing" | "preview" | "offer" | "apply" | "success";
 
@@ -191,8 +196,8 @@ function Landing({
             오래 읽고 싶은 이야기로.
           </h2>
           <p>
-            기념일 선물을 고민하는 시간을 줄이고, 두 사람다운 장면은 더
-            선명하게 남겨드려요.
+            기념일 선물을 고민하는 시간을 줄이고, 두 사람다운 장면은 더 선명하게
+            남겨드려요.
           </p>
         </div>
         <div className="feature-grid">
@@ -244,7 +249,10 @@ function Landing({
         <button type="button" className="sample-card" onClick={onPreview}>
           <div className="sample-art">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/demo/moa-cafe.webp" alt="비 오는 날의 카페 그림책 샘플" />
+            <img
+              src="/demo/moa-cafe.webp"
+              alt="비 오는 날의 카페 그림책 샘플"
+            />
             <span>PREVIEW 01</span>
           </div>
           <div className="sample-info">
@@ -324,8 +332,8 @@ function Landing({
           디지털 그림책을 선물합니다
         </h2>
         <p>
-          선정된 커플에게 {campaign.pageRangeLabel} 디지털 그림책을
-          무료로 제작해 드려요.
+          선정된 커플에게 {campaign.pageRangeLabel} 디지털 그림책을 무료로
+          제작해 드려요.
         </p>
         {campaignOpen ? (
           <PrimaryButton
@@ -339,7 +347,11 @@ function Landing({
         ) : (
           <p className="closed-note">현재 무료 제작 모집이 마감되었습니다.</p>
         )}
-        <button type="button" className="preview-link light-link" onClick={onPreview}>
+        <button
+          type="button"
+          className="preview-link light-link"
+          onClick={onPreview}
+        >
           샘플부터 더 둘러보기 <ChevronRight size={16} />
         </button>
       </section>
@@ -484,8 +496,8 @@ function FreeOffer({
             우리 이야기로 만들어볼까요?
           </h2>
           <p className="offer-desc">
-            모아의 첫 이야기를 함께 열어갈 커플을 찾고 있어요.
-            선정되면 {campaign.pageRangeLabel} 디지털 그림책을 만들어 드려요.
+            모아의 첫 이야기를 함께 열어갈 커플을 찾고 있어요. 선정되면{" "}
+            {campaign.pageRangeLabel} 디지털 그림책을 만들어 드려요.
           </p>
         </div>
 
@@ -635,6 +647,10 @@ function ApplyForm({
             />
             <span>
               인스타그램 아이디 수집 및 이벤트 관련 DM 수신에 동의합니다.
+              <em className="consent-hint">
+                (안내·선정 연락에만 사용하며, 이벤트 종료 후 안전하게
+                삭제해요🫶🏻)
+              </em>
             </span>
           </label>
           <p className="offer-note">
