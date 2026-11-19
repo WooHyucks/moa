@@ -389,7 +389,7 @@ function StoryPreview({
       <div className="preview-title">
         <span className="eyebrow">STORY SAMPLE</span>
         <h1>비가 오면, 우리는</h1>
-        <p>실제 제작된 그림책의 일부를 각색한 샘플이에요.</p>
+        <p>실제 제작될 그림책의 일부를 각색한 샘플이에요.</p>
       </div>
 
       <div className="reader">
@@ -732,6 +732,7 @@ export default function MoaApp({
   storageReady?: boolean;
 }) {
   const [screen, setScreen] = useState<Screen>("landing");
+  const [offerBackTo, setOfferBackTo] = useState<"landing" | "preview">("landing");
   const [utm, setUtm] = useState<UtmParams>({});
   const campaignOpen = isCampaignOpen();
 
@@ -751,13 +752,20 @@ export default function MoaApp({
     if (screen === "preview") track("onboarding_started");
   }, [screen]);
 
+  const goOffer = (from: "landing" | "preview") => {
+    setOfferBackTo(from);
+    setScreen("offer");
+  };
+
   return (
     <div className="site-shell">
       <div className="phone-shell">
         {screen === "landing" ? (
           <Landing
             campaignOpen={campaignOpen}
-            onStart={() => setScreen(campaignOpen ? "offer" : "preview")}
+            onStart={() =>
+              campaignOpen ? goOffer("landing") : setScreen("preview")
+            }
             onPreview={() => setScreen("preview")}
           />
         ) : null}
@@ -765,14 +773,14 @@ export default function MoaApp({
         {screen === "preview" ? (
           <StoryPreview
             onBack={() => setScreen("landing")}
-            onContinue={() => setScreen("offer")}
+            onContinue={() => goOffer("preview")}
           />
         ) : null}
 
         {screen === "offer" ? (
           <FreeOffer
             campaignOpen={campaignOpen}
-            onBack={() => setScreen("preview")}
+            onBack={() => setScreen(offerBackTo)}
             onApply={() => setScreen("apply")}
           />
         ) : null}

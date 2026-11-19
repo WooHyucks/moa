@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="ko" className="h-full" suppressHydrationWarning>
       <head>
-        <link rel="stylesheet" href="/prototype.css?v=moa-consent-2" />
+        <link rel="stylesheet" href="/prototype.css?v=moa-preview-copy-1" />
       </head>
       <body className="min-h-dvh">
         <Providers>{children}</Providers>
