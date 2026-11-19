@@ -4343,3 +4343,116 @@
 .preview-bottom .button-primary span {
   color: #fff !important;
 }
+
+/* ===== Free ticket coupon ===== */
+.ticket-section {
+  padding: 8px 18px 0;
+}
+
+.moa-ticket {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  border: 0;
+  border-radius: 18px;
+  background: #fff1f2;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+}
+
+.moa-ticket::before,
+.moa-ticket::after {
+  content: '';
+  position: absolute;
+  right: 86px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(50%);
+  z-index: 2;
+}
+
+.moa-ticket::before {
+  top: -8px;
+}
+
+.moa-ticket::after {
+  bottom: -8px;
+}
+
+.moa-ticket-main {
+  flex: 1;
+  min-width: 0;
+  padding: 15px 14px 15px 16px;
+  display: grid;
+  gap: 5px;
+}
+
+.moa-ticket-badge {
+  width: fit-content;
+  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 999px;
+  background: #ff5c68;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.moa-ticket-main strong {
+  margin-top: 1px;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #1c1b1b;
+}
+
+.moa-ticket-main small {
+  color: #77716e;
+  font-size: 11px;
+}
+
+.moa-ticket-side {
+  width: 78px;
+  flex: none;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 3px;
+  border-left: 1.5px dashed #ffc7cc;
+  color: #ff5c68;
+}
+
+.moa-ticket-side b {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.moa-ticket-side span {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.moa-ticket::before,
+.moa-ticket::after {
+  right: 78px;
+}
+
+.moa-ticket.closed {
+  background: #f2f0ee;
+}
+
+.moa-ticket.closed .moa-ticket-badge {
+  background: #1c1b1b;
+}
+
+.moa-ticket.closed .moa-ticket-side {
+  border-left-color: #d9d5d3;
+  color: #898481;
+}

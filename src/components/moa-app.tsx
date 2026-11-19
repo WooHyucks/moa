@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Clock3,
   Copy,
+  Gift,
   Image,
   Share2,
   ShieldCheck,
@@ -148,6 +149,36 @@ function Landing({
             <Clock3 size={15} /> 신청은 3분이면 충분해요
           </span>
         </div>
+      </section>
+
+      <section className="ticket-section">
+        <button
+          type="button"
+          className={`moa-ticket ${campaignOpen ? "" : "closed"}`}
+          onClick={() => {
+            if (!campaignOpen) {
+              onPreview();
+              return;
+            }
+            track("free_application_clicked", { source: "landing_ticket" });
+            onStart();
+          }}
+        >
+          <div className="moa-ticket-main">
+            <span className="moa-ticket-badge">
+              <Gift size={13} />
+              {campaignOpen ? `선착순 ${campaign.freeSlots}커플` : "모집 마감"}
+            </span>
+            <strong>디지털 그림책 무료 제작</strong>
+            <small>
+              {campaign.pageRangeLabel} · 디지털 PDF · 선정 커플 한정
+            </small>
+          </div>
+          <div className="moa-ticket-side">
+            <b>FREE</b>
+            <span>{campaignOpen ? "신청하기" : "샘플 보기"}</span>
+          </div>
+        </button>
       </section>
 
       <section className="intro-section">
@@ -312,20 +343,6 @@ function Landing({
           샘플부터 더 둘러보기 <ChevronRight size={16} />
         </button>
       </section>
-
-      <footer className="design-footer">
-        <MoaLogo size="sm" />
-        <p>
-          주식회사 모아스튜디오 · 대표 김모아
-          <br />
-          문의 help@moa-story.kr · 평일 10:00–18:00
-        </p>
-        <div>
-          <span>이용약관</span>
-          <span>개인정보처리방침</span>
-        </div>
-        <small>© 2025 MOA STUDIO. ALL RIGHTS RESERVED.</small>
-      </footer>
     </main>
   );
 }
