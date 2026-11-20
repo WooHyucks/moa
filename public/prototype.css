@@ -443,7 +443,7 @@
   outline: none;
   background: #fff;
   color: #1c1b1b;
-  font-size: 14px;
+  font-size: 16px; /* iOS 포커스 확대 방지 */
 }
 
 .field input:focus {
@@ -2593,7 +2593,7 @@
   font-style: normal;
   color: #ff5c68;
   font-weight: 800;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .ig-input input {
@@ -2602,13 +2602,13 @@
   outline: none;
   background: transparent;
   min-height: 40px;
-  font-size: 14px;
+  font-size: 16px; /* iOS 포커스 확대 방지 */
   color: #1c1b1b;
 }
 
 .ig-input input::placeholder {
   color: #b8b0ae;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .ig-input:focus-within {
